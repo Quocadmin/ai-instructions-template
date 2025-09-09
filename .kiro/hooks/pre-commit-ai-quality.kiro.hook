@@ -1,0 +1,24 @@
+{
+  "enabled": true,
+  "name": "{PROJECT_NAME} Pre-Commit Quality Check",
+  "description": "AI-guided quality validation before commits with essential checks",
+  "version": "1.0",
+  "when": {
+    "type": "preCommit",
+    "patterns": [
+      "{BACKEND_PATH}/**/*.{BACKEND_EXT}",
+      "**/*.{FRONTEND_EXT}",
+      "**/*.tsx",
+      "**/*.json",
+      "**/*.toml",
+      "**/*.md"
+    ],
+    "branches": ["main", "develop", "feature/*", "hotfix/*"]
+  },
+  "then": {
+    "type": "askAgent",
+    "tool": "tools/pre-commit-quality.ps1",
+    "arguments": ["--check-staged", "--auto-fix"],
+    "prompt": "🔍 PRE-COMMIT QUALITY CHECK\n\nCode is staged for commit. Execute essential quality validation:\n\n1. **Check Staged Files**:\n   - List all staged files: `git diff --cached --name-only`\n   - Categorize by file type (Rust, TypeScript, config, docs)\n\n2. **{BACKEND_LANG} Quality Checks** (if .{BACKEND_EXT} files staged):\n   - Format check: `cargo fmt --check`\n   - Linting: `cargo clippy --workspace -- -D warnings`\n   - Compilation: `cargo check --workspace`\n   - Quick tests: `cargo test --workspace --lib`\n\n3. **TypeScript Quality Checks** (if .ts/.tsx files staged):\n   - Type checking: `npx tsc --noEmit`\n   - Linting: `npx eslint . --ext .ts,.tsx --max-warnings 0`\n   - Format check: `npx prettier --check \"**/*.{ts,tsx}\"`\n   - Quick tests: `npm test -- --run`\n\n4. **Configuration Validation** (if .json/.toml files staged):\n   - JSON syntax validation for all .json files\n   - TOML syntax validation for Cargo.toml files\n   - Environment file validation for .env files\n\n5. **Auto-Fix Common Issues**:\n   - Format {BACKEND_LANG} code: `cargo fmt`\n   - Format TypeScript: `npm run format`\n   - Fix ESLint issues: `npm run lint:fix`\n   - Sort imports and organize code\n\n**Quality Gates (BLOCKING)**:\n❌ **Block commit if**:\n- Compilation errors in {BACKEND_LANG} or TypeScript\n- Linting failures with max severity\n- Test failures in affected modules\n- Invalid JSON/TOML syntax\n- Security vulnerabilities detected\n\n✅ **Allow commit when**:\n- All compilation checks pass\n- Code properly formatted\n- No blocking lint errors\n- Critical tests are green\n- Configuration files are valid\n\n**Execution Flow**:\n1. Run quality checks in parallel where possible\n2. Apply auto-fixes for common issues\n3. Re-run checks after auto-fixes\n4. Report blocking issues clearly\n5. Provide specific fix commands\n\n**Output Requirements**:\n- Clear pass/fail status for each check\n- Specific error messages with file locations\n- Auto-fix results summary\n- Commands to resolve blocking issues\n- Estimated fix time for each issue\n\nExecute quality checks and report status. Block commit only for critical issues that prevent safe integration."
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "enabled": true,
+  "name": "{PROJECT_NAME} FAANGAI GitHub Sync",
+  "description": "Sync FAANGAI specifications with GitHub issues and project boards",
+  "version": "1.0",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      ".kiro/specs/**/*.md",
+      ".kiro/steering/**/*.md",
+      ".kiro/settings/github.json"
+    ],
+    "branches": ["main", "develop", "feature/*"]
+  },
+  "then": {
+    "type": "askAgent",
+    "tool": "tools/faangai-github-sync.ps1",
+    "arguments": ["-Action", "sync-specs", "-AutoCreate"],
+    "prompt": "🔄 FAANGAI SPECS MODIFIED - SYNC WITH GITHUB\n\nFAANGAI specification files have been updated. Execute GitHub synchronization:\n\n1. **Identify changed specs**: Extract modified .kiro/specs/**/*.md files\n2. **Process tasks.md files**: Convert task checkboxes to GitHub issues\n3. **Update requirements.md**: Create or update epic issues\n4. **Sync design.md**: Update design documentation issues\n5. **Project board updates**: Move items to appropriate status columns\n\n**GitHub Actions**:\n- Create issues for new tasks: `gh issue create --title \"Task\" --label \"faangai,task\"`\n- Update completed tasks: `gh issue edit ISSUE_NUMBER --add-label \"completed\"`\n- Link related issues: Connect tasks to requirements and design\n- Update project board: Move items based on progress\n\n**Sync Mapping**:\n- `[ ]` tasks → Open GitHub issues\n- `[x]` tasks → Completed GitHub issues\n- Requirements → Epic issues with \"requirements\" label\n- Design → Documentation issues with \"design\" label\n\n**Validation Steps**:\n1. Check GitHub CLI availability: `gh auth status`\n2. Verify repository connection: `gh repo view`\n3. Validate project board access: `gh project list`\n4. Confirm issue creation permissions\n\n**Success Criteria**:\n✅ Task items synchronized with GitHub issues\n✅ Project board reflects current status\n✅ Labels applied correctly (kiro, task, requirements, design)\n✅ Issue linking maintained for traceability\n✅ No duplicate issues created\n\nGenerate sync summary and execute GitHub CLI commands for manual review. Report any conflicts or manual actions required."
+  }
+}

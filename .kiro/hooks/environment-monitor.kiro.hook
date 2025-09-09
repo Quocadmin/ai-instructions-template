@@ -1,0 +1,23 @@
+{
+  "enabled": true,
+  "name": "{PROJECT_NAME} Environment Monitor",
+  "description": "Monitor development environment health and dependencies",
+  "version": "1.0",
+  "when": {
+    "type": "onStartup",
+    "patterns": [
+      "{BACKEND_PATH}/Cargo.toml",
+      "package.json",
+      ".env*",
+      "docker-compose*.yml",
+      ".kiro/settings/*.json"
+    ],
+    "branches": ["main", "develop", "feature/*"]
+  },
+  "then": {
+    "type": "askAgent",
+    "tool": "tools/smart-env-validator.sh",
+    "arguments": ["--check-all", "--report"],
+    "prompt": "🔍 ENVIRONMENT HEALTH CHECK\n\nValidate development environment readiness:\n\n1. **Check required tools**: cargo, node, npm, git, docker\n2. **Validate project structure**: Verify key directories exist\n3. **Test service connectivity**: PostgreSQL (5432), Redis (6379), Temporal (7233)\n4. **Verify dependencies**: Check Cargo.lock and package-lock.json\n5. **Environment configuration**: Validate .env files and Docker setup\n6. **AI work tracking**: Ensure automation scripts are available\n\nExecute environment validation and report:\n✅ All tools available and working\n✅ Project structure complete\n✅ Services accessible (or provide startup instructions)\n✅ Dependencies resolved\n✅ Configuration files present\n✅ Development environment ready\n\nProvide quick start commands if issues found:\n- Infrastructure: `docker-compose -f {BACKEND_PATH}/infrastructure/docker/docker-compose.dev.yml up -d`\n- Backend: `cd {BACKEND_PATH} && cargo run --bin api-gateway`\n- Frontend: `npm run dev:all`\n- All services: `./tools/smart-dev-toolkit.ps1 -Action dev-start -Service all`\n\nReport environment status and readiness for development."
+  }
+}

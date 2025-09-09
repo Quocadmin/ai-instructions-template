@@ -1,0 +1,25 @@
+{
+  "enabled": true,
+  "name": "{PROJECT_NAME} AI Instructions Auto-Sync",
+  "description": "Automatically syncs AI instruction files across all platforms when modified",
+  "version": "1.0",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "AGENTS.md",
+      "CLAUDE.md",
+      "GEMINI.md",
+      ".github/copilot-instructions.md",
+      ".vscode/README.md",
+      ".zed/README.md",
+      "ai-agents/*.md"
+    ],
+    "branches": ["main", "develop", "feature/*", "hotfix/*"]
+  },
+  "then": {
+    "type": "askAgent",
+    "tool": "tools/ai-instructions-sync.ps1",
+    "arguments": ["-Action", "sync-all"],
+    "prompt": "🔄 AI INSTRUCTION FILE MODIFIED - SYNC REQUIRED\n\nAn AI instruction file has been changed. Execute the synchronization process:\n\n1. Run sync tool: `./tools/ai-instructions-sync.ps1 -Action sync-all`\n2. Validate sync: `./tools/ai-instructions-sync.ps1 -Action validate`\n3. Verify all platforms synchronized:\n   - `AGENTS.md` (MASTER SOURCE)\n   - `.github/copilot-instructions.md` (GitHub Copilot)\n   - `CLAUDE.md` (Claude AI)\n   - `GEMINI.md` (Google Gemini AI)\n   - `.vscode/README.md` (VS Code)\n   - `.zed/README.md` (Zed Editor)\n   - `ai-agents/*.md` (All agents)\n\nSuccess criteria:\n✅ All platforms synchronized\n✅ No sync conflicts\n✅ Multi-OS paths correct\n✅ Agent files updated\n\nConfirm completion and report any issues."
+  }
+}

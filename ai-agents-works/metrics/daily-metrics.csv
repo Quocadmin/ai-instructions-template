@@ -1,0 +1,9 @@
+timestamp,agent_name,task_type,success_rate,response_time_minutes,tokens_used,productivity_gain,error_count,resolution_time_minutes,satisfaction_score
+2025-01-13 00:00:00,architect-agent,system-design,0.92,15,2500,1.8,0,0,4.5
+2025-01-13 00:00:00,backend-agent,rust-development,0.94,12,3200,2.1,1,8,4.7
+2025-01-13 00:00:00,frontend-agent,react-component,0.89,10,1800,1.6,0,0,4.3
+2025-01-13 00:00:00,database-agent,query-optimization,0.91,18,2100,2.3,0,0,4.6
+2025-01-13 00:00:00,devops-agent,deployment,0.87,20,2800,1.9,2,15,4.2
+2025-01-13 00:00:00,qa-agent,test-automation,0.88,14,1900,1.7,1,5,4.4
+2025-01-13 00:00:00,security-agent,vulnerability-scan,0.93,25,3500,2.4,0,0,4.8
+2025-01-13 00:00:00,spec-agent,requirements,0.85,22,2400,1.5,1,12,4.1

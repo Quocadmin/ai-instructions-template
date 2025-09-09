@@ -1,0 +1,24 @@
+{
+  "enabled": true,
+  "name": "{PROJECT_NAME} Post-Commit Optimization",
+  "description": "Run optimization tasks after successful commits",
+  "version": "1.0",
+  "when": {
+    "type": "postCommit",
+    "patterns": [
+      "{BACKEND_PATH}/**/*.{BACKEND_EXT}",
+      "**/*.{FRONTEND_EXT}",
+      "**/*.tsx",
+      "package.json",
+      "Cargo.toml",
+      ".kiro/specs/**/*.md"
+    ],
+    "branches": ["main", "develop", "feature/*"]
+  },
+  "then": {
+    "type": "askAgent",
+    "tool": "tools/post-commit-optimizer.ps1",
+    "arguments": ["-Action", "optimize", "-Background"],
+    "prompt": "🚀 POST-COMMIT OPTIMIZATION\n\nCommit successful! Execute optimization tasks:\n\n1. **Update Dependencies** (if package files changed):\n   - Check for Cargo.toml changes: `cargo update`\n   - Check for package.json changes: `npm update`\n   - Verify dependency integrity and security\n\n2. **Generate Documentation** (if code changed):\n   - Rust documentation: `cargo doc --workspace --no-deps`\n   - TypeScript documentation: `npx typedoc` (if configured)\n   - Update API documentation automatically\n\n3. **AI Work Tracking Update**:\n   - Log commit hash and message to active AI session\n   - Update token usage and progress tracking\n   - Execute: `./ai-agents-works/automation/ai-work-tracker.ps1 -Action update-commit`\n\n4. **Kiro Specs Sync** (if .kiro/specs changed):\n   - Sync specification changes with GitHub\n   - Update project board status\n   - Execute: `./tools/kiro-sync.ps1 -Action sync-specs`\n\n5. **Cache Optimization** (weekly cleanup):\n   - Clean Rust build cache: `cargo clean --release`\n   - Clean Node cache: `npm cache clean --force`\n   - Remove temporary files and artifacts\n\n6. **Performance Metrics Collection**:\n   - Count changed files and lines\n   - Log commit statistics\n   - Track development velocity\n\n**Optimization Priorities**:\n🔄 Keep dependencies updated and secure\n📚 Maintain current documentation\n📝 Track development progress automatically\n📋 Sync specifications with project management\n🧹 Clean unnecessary build artifacts\n📊 Monitor development metrics\n\n**Background Tasks**:\n- Run non-blocking optimizations\n- Report completion status\n- Log any optimization failures\n- Provide recommendations for manual actions\n\n**Success Indicators**:\n✅ Dependencies updated (if applicable)\n✅ Documentation generated\n✅ AI tracking updated\n✅ Specs synchronized\n✅ Caches optimized\n✅ Metrics collected\n\nExecute optimization workflow and report completion status with any recommendations."
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "enabled": true,
+  "name": "{PROJECT_NAME} Test Debug Runner",
+  "description": "Quick test execution and debug assistance for development workflow",
+  "version": "1.0",
+  "when": {
+    "type": "onDemand",
+    "patterns": [
+      "{BACKEND_PATH}/**/*.{BACKEND_EXT}",
+      "**/*.{FRONTEND_EXT}",
+      "**/*.tsx",
+      "**/tests/**/*",
+      "**/test/**/*",
+      "**/*.test.*",
+      "**/*.spec.*"
+    ],
+    "branches": ["main", "develop", "feature/*", "hotfix/*"]
+  },
+  "then": {
+    "type": "askAgent",
+    "tool": "tools/test-debug-runner.ps1",
+    "arguments": ["--interactive", "--target-detection"],
+    "prompt": "🧪 TEST & DEBUG RUNNER\n\nExecute targeted testing and debugging assistance:\n\n1. **Identify Test Scope**:\n   - Detect changed files and affected test modules\n   - Categorize tests: unit, integration, e2e\n   - Determine optimal test strategy based on changes\n\n2. **{BACKEND_LANG} Testing**:\n   - Unit tests: `cargo test --workspace --lib`\n   - Integration tests: `cargo test --test '*'`\n   - Specific service: `cargo test --package {service-name}`\n   - Debug mode: `RUST_LOG=debug cargo test {test-name} -- --nocapture`\n   - Benchmarks: `cargo bench` (if available)\n\n3. **TypeScript/React Testing**:\n   - Unit tests: `npm run test:unit`\n   - Component tests: `npm test -- {component-name}`\n   - Integration tests: `npm run test:integration`\n   - E2E tests: `npm run test:e2e`\n   - Debug mode: `npm run test:debug`\n   - Watch mode: `npm run test:watch`\n\n4. **Infrastructure Testing**:\n   - Service health: `docker ps && docker-compose ps`\n   - Database connection: `psql -h localhost -p 5432 -U {DB_USER} -d {DB_NAME} -c 'SELECT 1;'`\n   - Redis connection: `redis-cli ping`\n   - {WORKFLOW_ENGINE} health: `tctl cluster health`\n\n5. **Debug Scenarios**:\n   - **Service Startup Issues**: Check ports, env vars, DB connectivity\n   - **Flaky Tests**: Run multiple iterations, check race conditions\n   - **Build Problems**: Clean rebuild, update deps, check versions\n   - **Performance Issues**: Run benchmarks, profile memory, analyze queries\n\n6. **Test Environment Setup**:\n   - Start test infrastructure: `docker-compose -f docker-compose.test.yml up -d`\n   - Reset test database: `./scripts/reset-test-db.ps1`\n   - Seed test data: `./scripts/seed-test-data.ps1`\n   - Clean artifacts: Remove test-results and coverage directories\n\n7. **Quick Debug Commands**:\n   - Compilation check: `cargo check --workspace`\n   - Type check: `npx tsc --noEmit`\n   - Lint check: `npx eslint . --ext .ts,.tsx`\n   - Service health: Test network connections to key ports\n\n8. **Test Categories & Execution**:\n   - **Unit Tests**: Fast, isolated component testing\n   - **Integration Tests**: Service-to-service communication\n   - **E2E Tests**: Full user workflow testing\n   - **Performance Tests**: Load testing and benchmarks\n   - **Security Tests**: Authentication and authorization\n\n**Debug Workflow**:\n1. Identify failing component (service, frontend, infrastructure)\n2. Run targeted tests for specific component\n3. Enable debug logging for detailed diagnostics\n4. Check dependencies (database, external services)\n5. Isolate issue with minimal reproduction\n6. Apply fix and verify with comprehensive tests\n\n**Interactive Options**:\n- Select specific test category to run\n- Choose debug scenario for assistance\n- Run targeted tests based on changed files\n- Execute comprehensive test suite\n- Generate test reports and coverage\n\n**Success Indicators**:\n✅ All unit tests pass\n✅ Integration tests pass\n✅ No compilation errors\n✅ Services start successfully\n✅ Database connections work\n✅ Frontend renders correctly\n✅ Performance within acceptable limits\n\nProvide interactive test selection and debug guidance based on current development context and any specific issues encountered."
+  }
+}
