@@ -1,0 +1,1 @@
+Repo này giống như một “bộ xương sống AI instructions cho dự án phần mềm”, giúp đội dev hoặc cá nhân có hệ thống AI nhất quán, đồng bộ đa nền tảng, có logging, metrics, validation và khả năng mở rộng enterprise-scale
